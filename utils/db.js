@@ -51,14 +51,14 @@ async function newAccount(data)
     {
         return false;
     }
-    var db = getMainDb()
+    var db =await getMainDb()
     var ret = await db.collection(sUser).insertOne(data);
     await pool.close();
     return ret;
 }
 async function getAccountById(uid)
 {
-    var db = getMainDb()
+    var db =await getMainDb()
     var ret = await db.collection(sUser).find({
         id:uid
     }).project({}).toArray();
@@ -67,14 +67,14 @@ async function getAccountById(uid)
 }
 async function newDomain(data)
 {
-    var db = getMainDb()
+    var db =await getMainDb()
     var ret = await db.collection(sDomain).insertOne(data);
     await pool.close();
     return ret;
 }
 async function getDomainByName(name)
 {
-    var db = getMainDb()
+    var db =await getMainDb()
     var ret = await db.collection(sDomain).find({
         name:name
     }).project({}).toArray();
@@ -84,7 +84,7 @@ async function getDomainByName(name)
 
 async function getDomainByUid(uid)
 {
-    var db = getMainDb()
+    var db =await getMainDb()
     var ret = await db.collection(sDomain).find({
         uid:uid
     }).project({}).toArray();
