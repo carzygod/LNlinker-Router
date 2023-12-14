@@ -8,8 +8,9 @@ You can register your own \`.LNS\` domain name here
 And claim your Lightning Network identity \`LNID\`.
 
 `,
-`*Domain you own : *`,
-`\`You don't have any domain yet\``
+`*Your Domain : *`,
+`
+\`You don't have any domain yet\``
         ]
     }
 ]
@@ -46,7 +47,7 @@ function backAndClose(lan)
 
 function mainMenuButton(lan)
 {
-    var b = getBtn(lan)
+    var raw = getBtn(lan)
     return [
         [
             {

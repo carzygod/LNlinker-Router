@@ -38,12 +38,6 @@ function unique(arr) {
     })
 }
 
-async function getMainDb()
-{
-    const pool =  await MongoClient.connect(process.env.SQL_HOST)
-    return pool.db(mainDB);
-}
-
 //working logic
 async function newAccount(data)
 {
@@ -51,14 +45,16 @@ async function newAccount(data)
     {
         return false;
     }
-    var db =await getMainDb()
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
     var ret = await db.collection(sUser).insertOne(data);
     await pool.close();
     return ret;
 }
 async function getAccountById(uid)
 {
-    var db =await getMainDb()
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
     var ret = await db.collection(sUser).find({
         id:uid
     }).project({}).toArray();
@@ -67,14 +63,16 @@ async function getAccountById(uid)
 }
 async function newDomain(data)
 {
-    var db =await getMainDb()
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
     var ret = await db.collection(sDomain).insertOne(data);
     await pool.close();
     return ret;
 }
 async function getDomainByName(name)
 {
-    var db =await getMainDb()
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
     var ret = await db.collection(sDomain).find({
         name:name
     }).project({}).toArray();
@@ -84,7 +82,8 @@ async function getDomainByName(name)
 
 async function getDomainByUid(uid)
 {
-    var db =await getMainDb()
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
     var ret = await db.collection(sDomain).find({
         uid:uid
     }).project({}).toArray();

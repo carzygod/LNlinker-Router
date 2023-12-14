@@ -5,10 +5,7 @@
 async function tryBotSendMessage(bot,a,b,c)
 {
     try{
-        var t_0 = Date.now();
         var r = await bot.sendMessage(a,b,c);
-        var t_1 = Date.now();
-        console.log("⏰ TG time : ",t_1-t_0)
         return r 
     }catch(e){
         console.log(e)
