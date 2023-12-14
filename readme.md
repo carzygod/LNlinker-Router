@@ -1,6 +1,6 @@
-# Lnlinker Router
+# LnId Router
 
-This repo is build the router of [Lnlinker](https://t.me/lnlinker_bot) Bot
+This repo is build the router of [LnId](https://t.me/lnlinker_bot) Bot
 
 Including : 
 

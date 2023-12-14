@@ -6,7 +6,7 @@ var querystring = require('querystring');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-const controller = require("../utils/controller")
+const core = require("../utils/core")
 const cors = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -24,7 +24,7 @@ app.get('/ping', async function(req, res) {
 
 app.get('/.well-known/lnurlp/:uname', async function(req, res) {
     try{
-        var s = await controller.getRecord(req.params.uname)
+        var s = await core.getRecord(req.params.uname)
         res.send(s.rawData);
     }catch(e)
     {
@@ -38,9 +38,7 @@ app.get('/.well-known/lnurlp/:uname', async function(req, res) {
 
 app.get('/.well-known/nostr.json', async function(req, res) {
     try{
-        var s = await controller.getNip05(req.query.name)
-        // res.header("Access-Control-Allow-Origin", "http://localhost:4200"); 
-        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        var s = await core.getNip05(req.query.name)
         res.send(s.rawData);
     }catch(e)
     {
@@ -54,7 +52,7 @@ app.get('/.well-known/nostr.json', async function(req, res) {
 
 app.post('/newRecord/:uname', async function(req, res) {
     try{
-        var s = await controller.newRecord(req.params.uname,req.body.ln)
+        var s = await core.newRecord(req.params.uname,req.body.ln)
         res.send({
             "code":200,
             "data":s
@@ -71,7 +69,7 @@ app.post('/newRecord/:uname', async function(req, res) {
 
 app.post('/newNip05/:uname', async function(req, res) {
     try{
-        var s = await controller.newNip05(req.params.uname,req.body.ln)
+        var s = await core.newNip05(req.params.uname,req.body.ln)
         res.send({
             "code":200,
             "data":s
