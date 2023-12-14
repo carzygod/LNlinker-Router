@@ -2,7 +2,8 @@ const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config()
 const token = process.env.TELEGRAMAPI;
 const tool = require("../../utils/tools")
-const menu = require("./src/menu")
+const menu = require("./src/menu");
+const domain = require("./src/domain")
 const bot = new TelegramBot(token, {polling: true});
 bot.on('message', async (msg) => {
     try{
@@ -60,23 +61,23 @@ async function router(data)
 
 async function callBackRouter(data,action,opts )
 {
-  const uid = data.chat.id;
-  const d= data.text;
-  const t= data.date;
-  const req = tool.pathRouter(action);
-  switch (req.command)
-  {
-      case "menu":
-        await r.menu_main(uid,d,t,req,opts,bot,lan)
-        break;
-      case "empty":
-          return null;
-      case "close":
-          break;
-      default :
-          break;
-
-  }
+    const uid = data.chat.id;
+    const req = tool.pathRouter(action);
+    switch (req.command)
+    {
+        case "menu":
+            await menu.menu(bot,uid,req,data);
+            break;
+        case "register_domain":
+            await domain.reg(bot,uid,req,data,opts);
+            break;
+        case "empty":
+            return null;
+        case "close":
+            break;
+        default :
+            break;
+    }
   bot.deleteMessage(opts.chat_id,opts.message_id);
 } 
 
