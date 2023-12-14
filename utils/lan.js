@@ -15,9 +15,20 @@ And claim your Lightning Network identity \`LNID\`.
         "register":[
             `is now avable`
         ],
+        "domain":[
+            `Domain management : `,
+            `Name`,
+            `Ln Address`,
+            `Nostr Address`,
+            `Browser Visit`,
+            `Registed Time`
+        ],
         "placeHolder":[
             `Please input the LNID name you want to register . Eg : rubin `,
-            `Name already exsit`
+            `Name already exsit`,
+            `Please input your lighting network address by your wallet . Eg : xxx@getalby.com`,
+            `Please input your nostr address . Eg : npxx....`,
+            `Please input link of your twitter or site .`
         ],
     }
 ]
@@ -31,6 +42,11 @@ const btn = [
         ],
         "register":[
             `confirm registe`
+        ],
+        "domain":[
+            `Edit Ln Address`,
+            `Edit Nostr Address`,
+            `Edit Browser Visit`,
         ],
         "backAndClose":
         [

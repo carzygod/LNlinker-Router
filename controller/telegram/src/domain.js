@@ -46,6 +46,38 @@ async function reg(bot,uid,req,data,opts)
 
 }
 
+async function regConfirm(bot,uid,req,data,opts)
+{
+    if(req.params.length>0)
+    {
+        await db.newDomain(
+            {
+                uid:uid.toString(),
+                name:req.params[0],
+                tld:config.domain.defaultTLD,
+                visit:config.domain.defaultLN,
+                forward:{
+                    ln:{},
+                    nostr:{}
+                },
+                createTime:Date.now(),
+            }
+        )
+    }
+}
+
+async function domainManage(bot,uid,req,data,opts)
+{
+    if(req.params.length>0)
+    {
+        const domain = await db.getDomainByName(req.params[0]);
+        if(domain.length>0 && domain[0]['uid'] == uid)
+        {
+
+        }
+    }
+}
 module.exports = {
-    reg
+    reg,
+    regConfirm
 }
