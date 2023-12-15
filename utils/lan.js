@@ -23,6 +23,9 @@ And claim your Lightning Network identity \`LNID\`.
             `Browser Visit`,
             `Registed Time`
         ],
+        "domainList":[
+            `My Domains`,
+        ],
         "placeHolder":[
             `Please input the LNID name you want to register . Eg : rubin `,
             `Name already exsit`,
@@ -136,6 +139,24 @@ function domainManage(name,lan)
         backAndClose(lan)
     ]
 }
+
+function domainSelect(domains,lan)
+{
+    var ret =[];
+    domains.forEach(d => {
+        ret.push(
+            [
+                {
+                    "text":d.name,
+                    "callback_data":`/manage_domain ${d.name}`
+                },
+            ],
+        )
+    });
+    ret.push(backAndClose(lan))
+    return ret;
+}
+
 function getText(lan)
 {
     return text[0];
@@ -152,5 +173,6 @@ module.exports = {
     mainMenuButton,
     backAndClose,
     registerConfirm,
-    domainManage
+    domainManage,
+    domainSelect
 }

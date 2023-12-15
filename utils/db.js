@@ -64,6 +64,10 @@ async function getAccountById(uid)
 }
 async function newDomain(data)
 {
+    if((await getDomainByName(data.name)).length > 0 )
+    {
+        return false;
+    }
     const pool =  await MongoClient.connect(process.env.SQL_HOST)
     var db =pool.db(mainDB);
     var ret = await db.collection(sDomain).insertOne(data);

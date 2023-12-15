@@ -6,7 +6,7 @@ var querystring = require('querystring');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-const core = require("../utils/core")
+const core = require("../../utils/core")
 const cors = require('cors');
 
 app.use(bodyParser.urlencoded({ extended: false }))

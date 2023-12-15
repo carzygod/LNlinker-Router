@@ -71,10 +71,12 @@ async function callBackRouter(data,action,opts )
             break;
         case "register_domain":
             await domain.reg(bot,uid,req,data,opts);
-            return 0 ;
             break;
         case "register_confirm":
             await domain.regConfirm(bot,uid,req,data,opts);
+            break;
+        case "manage_domain":
+            await domain.domainManage(bot,uid,req,data,opts);
             return 0 ;
             break;
         case "empty":

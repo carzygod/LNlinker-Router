@@ -1,15 +1,15 @@
-const sql = require("./utils/sql");
-const api = require("./utils/apis")
-const tool = require("./utils/tools")
+const db = require("./db");
+const api = require("./apis")
+const tool = require("./tools")
 const nt = require('nostr-tools')
 async function getRecord(uanme)
 {
-    var ret = await sql.getRecord(uanme);
+    var ret = await db.getDomainByName(uanme);
     if(ret && ret.length > 0)
     {
-        ret[0].rawData = Buffer.from(ret[0].rawData,"base64").toString("utf-8")
-        ret[0].rawData = JSON.parse(ret[0].rawData)
-        return ret[0]
+        ret[0].forward.ln.rawData = Buffer.from(ret[0].rawData,"base64").toString("utf-8")
+        ret[0].forward.ln.rawData = JSON.parse(ret[0].rawData)
+        return ret[0].forward.ln
     }else{
         return false;
     }
@@ -42,12 +42,12 @@ async function newRecord(uanme,ln)
 
 async function getNip05(uanme)
 {
-    var ret = await sql.getNip05(uanme);
+    var ret = await db.getDomainByName(uanme);
     if(ret && ret.length > 0)
     {
-        ret[0].rawData = Buffer.from(ret[0].rawData,"base64").toString("utf-8")
-        ret[0].rawData = JSON.parse(ret[0].rawData)
-        return ret[0]
+        ret[0].forward.ln.rawData = Buffer.from(ret[0].rawData,"base64").toString("utf-8")
+        ret[0].forward.ln.rawData = JSON.parse(ret[0].rawData)
+        return ret[0].forward.ln
     }else{
         return false;
     }

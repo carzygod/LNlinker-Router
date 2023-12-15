@@ -70,19 +70,18 @@ async function regConfirm(bot,uid,req,data,opts)
 
 async function domainManage(bot,uid,req,data,opts)
 {
+    var text = lan.getText()
     if(req.params.length>0)
     {
         var name = (req.params[0]).toLowerCase();
         const domain = await db.getDomainByName(name);
         console.log(domain)
-        if(domain.length>0 && domain[0]['uid'] == uid)
+        if(domain.length>0 && domain[0]['uid'] == uid.toString())
         {
             var d= domain[0];
             var ln = d.forward.ln?.link || "NA"
             var nst = d.forward.nostr?.address || "NA"
             var http = d.forward.http || "NA"
-
-            var text = lan.getText()
             var finalText = `
 *${text['domain'][0]} :*
 
@@ -102,7 +101,20 @@ ${text['domain'][4]} : \`${d.createTime}\`
             });
         }
     }else{
-
+        const domains = await db.getDomainByUid(uid.toString());
+        var finalText = text['domainList'][0];
+        domains.forEach(d => {
+            finalText +=`
+${d.name}${config.domain.defaultLN}  &  ${d.name}${config.domain.defaultTLD}
+`
+        });
+        return await tg.tryBotSendMessage(bot,uid,finalText,{
+            parse_mode:'MarkDown',
+            disable_web_page_preview:"true",
+            reply_markup: JSON.stringify({
+            inline_keyboard:lan.domainSelect(domains)
+            })
+        });
     }
 }
 module.exports = {
