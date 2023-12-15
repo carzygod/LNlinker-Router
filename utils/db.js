@@ -26,7 +26,8 @@ const domainStruct = {
     visit:"",
     forward:{
         ln:{},
-        nostr:{}
+        nostr:{},
+        http:""
     },
     createTime:0,
 }

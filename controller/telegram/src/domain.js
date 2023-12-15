@@ -16,7 +16,7 @@ async function reg(bot,uid,req,data,opts)
             bot.removeReplyListener(listenerReply);
             await bot.deleteMessage(contentMessage.chat.id,contentMessage.message_id);
             await bot.deleteMessage(replyHandler.chat.id,replyHandler.message_id);
-            var name = replyHandler.text;
+            var name = (replyHandler.text).toLowerCase();
             if((await db.getDomainByName(name)).length > 0)
             {
                 //domain exsit
@@ -58,11 +58,13 @@ async function regConfirm(bot,uid,req,data,opts)
                 visit:config.domain.defaultLN,
                 forward:{
                     ln:{},
-                    nostr:{}
+                    nostr:{},
+                    http:""
                 },
                 createTime:Date.now(),
             }
         )
+        return domainManage(bot,uid,req,data,opts)
     }
 }
 
@@ -70,14 +72,41 @@ async function domainManage(bot,uid,req,data,opts)
 {
     if(req.params.length>0)
     {
-        const domain = await db.getDomainByName(req.params[0]);
+        var name = (req.params[0]).toLowerCase();
+        const domain = await db.getDomainByName(name);
+        console.log(domain)
         if(domain.length>0 && domain[0]['uid'] == uid)
         {
+            var d= domain[0];
+            var ln = d.forward.ln?.link || "NA"
+            var nst = d.forward.nostr?.address || "NA"
+            var http = d.forward.http || "NA"
 
+            var text = lan.getText()
+            var finalText = `
+*${text['domain'][0]} :*
+
+${name}${config.domain.defaultLN}  &  ${name}${config.domain.defaultTLD}
+
+${text['domain'][1]} : \`${ln}\`
+${text['domain'][2]} : \`${nst}\`
+${text['domain'][3]} : \`${http}\`
+${text['domain'][4]} : \`${d.createTime}\`
+            `
+            return await tg.tryBotSendMessage(bot,uid,finalText,{
+                parse_mode:'MarkDown',
+                disable_web_page_preview:"true",
+                reply_markup: JSON.stringify({
+                inline_keyboard:lan.domainManage(name)
+                })
+            });
         }
+    }else{
+
     }
 }
 module.exports = {
     reg,
-    regConfirm
+    regConfirm,
+    domainManage
 }

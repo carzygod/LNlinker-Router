@@ -16,7 +16,7 @@ And claim your Lightning Network identity \`LNID\`.
             `is now avable`
         ],
         "domain":[
-            `Domain management : `,
+            `Domain management`,
             `Name`,
             `Ln Address`,
             `Nostr Address`,
@@ -110,6 +110,32 @@ function registerConfirm(name,lan)
         backAndClose(lan)
     ]
 }
+
+function domainManage(name,lan)
+{
+    var raw = getBtn(lan)
+    return [
+        [
+            {
+                "text":raw.domain[0],
+                "callback_data":`/domain_edit_ln ${name}`
+            },
+        ],
+        [
+            {
+                "text":raw.domain[1],
+                "callback_data":`/domain_edit_nostr ${name}`
+            },
+        ],
+        [
+            {
+                "text":raw.domain[2],
+                "callback_data":`/domain_edit_http ${name}`
+            },
+        ],
+        backAndClose(lan)
+    ]
+}
 function getText(lan)
 {
     return text[0];
@@ -125,5 +151,6 @@ module.exports = {
     getBtn,
     mainMenuButton,
     backAndClose,
-    registerConfirm
+    registerConfirm,
+    domainManage
 }

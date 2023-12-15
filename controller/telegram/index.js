@@ -67,9 +67,15 @@ async function callBackRouter(data,action,opts )
     {
         case "menu":
             await menu.menu(bot,uid,req,data);
+            return 0 ;
             break;
         case "register_domain":
             await domain.reg(bot,uid,req,data,opts);
+            return 0 ;
+            break;
+        case "register_confirm":
+            await domain.regConfirm(bot,uid,req,data,opts);
+            return 0 ;
             break;
         case "empty":
             return null;
