@@ -83,3 +83,12 @@ app.post('/newNip05/:uname', async function(req, res) {
         });
     }
 })
+
+async function init()
+{
+
+}
+
+module.exports = {
+    init
+}

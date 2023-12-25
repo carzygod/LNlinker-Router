@@ -25,6 +25,11 @@ And claim your Lightning Network identity \`LNID\`.
         ],
         "domainList":[
             `My Domains`,
+            `⚠️ Please confirm this delete action`
+            `This action will wipe`,
+            `from LNID`,
+            `You will be no longer own the domain`
+
         ],
         "placeHolder":[
             `Please input the LNID name you want to register . Eg : rubin `,
@@ -47,9 +52,11 @@ const btn = [
             `confirm registe`
         ],
         "domain":[
-            `Edit Ln Address`,
-            `Edit Nostr Address`,
-            `Edit Browser Visit`,
+            `⚙Edit Ln Address`,
+            `⚙Edit Nostr Address`,
+            `⚙Edit Browser Visit`,
+            `🛠Delete Domain`,
+            `⚠️ Confirm Delete`
         ],
         "backAndClose":
         [
@@ -136,12 +143,19 @@ function domainManage(name,lan)
                 "callback_data":`/domain_edit_http ${name}`
             },
         ],
+        [
+            {
+                "text":raw['domain'][3],
+                "callback_data":`/deleted_domain ${name}`
+            },
+        ],
         backAndClose(lan)
     ]
 }
 
 function domainSelect(domains,lan)
 {
+    var raw = getBtn(lan)
     var ret =[];
     domains.forEach(d => {
         ret.push(
@@ -153,10 +167,32 @@ function domainSelect(domains,lan)
             ],
         )
     });
+    ret.push(
+        [
+            {
+                "text":raw['domain'][3],
+                "callback_data":`/deleted_domain`
+            },
+        ],
+    )
     ret.push(backAndClose(lan))
     return ret;
 }
 
+
+function domainDeleted(name,lan)
+{
+    var raw = getBtn(lan)
+    return [
+        [
+            {
+                "text":raw['domain'][4],
+                "callback_data":`/deleted_domain_confirm ${name}`
+            },
+        ],
+        backAndClose(lan)
+    ]
+}
 function getText(lan)
 {
     return text[0];
@@ -174,5 +210,6 @@ module.exports = {
     backAndClose,
     registerConfirm,
     domainManage,
-    domainSelect
+    domainSelect,
+    domainDeleted
 }

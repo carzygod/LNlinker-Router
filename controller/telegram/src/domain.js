@@ -75,7 +75,6 @@ async function domainManage(bot,uid,req,data,opts)
     {
         var name = (req.params[0]).toLowerCase();
         const domain = await db.getDomainByName(name);
-        console.log(domain)
         if(domain.length>0 && domain[0]['uid'] == uid.toString())
         {
             var d= domain[0];
@@ -117,8 +116,52 @@ ${d.name}${config.domain.defaultLN}  &  ${d.name}${config.domain.defaultTLD}
         });
     }
 }
+
+async function deletedDomain(bot,uid,req,data,opts)
+{
+    if(req.params.length > 0)
+    {
+        const name = req.params[0]
+        const domain = await db.getDomainByName(name);
+        if(domain.length>0 && domain[0]['uid'] == uid.toString())
+        {
+
+        }else{
+            return false; //It do not own the domain
+        }
+        //return the confirm menu
+        var text = lan.getText()
+        var finalText = `*${text['domain'][1]}*
+${text['domain'][1]} \`${name}.${config.domain.defaultTLD}\` ${text['domain'][2]}
+${text['domain'][3]}`
+        var btn = lan.domainDeleted(name,lan);
+        return await tg.tryBotSendMessage(bot,uid,finalText,{
+            parse_mode:'MarkDown',
+            disable_web_page_preview:"true",
+            reply_markup: JSON.stringify({
+            inline_keyboard:btn
+            })
+        });
+    }else
+    {
+        //require to input 
+    }
+}
+
+async function deletedDomainConfirm(bot,uid,req,data,opts)
+{
+    if(req.params.length > 0)
+    {
+
+    }else
+    {
+
+    }
+}
+
 module.exports = {
     reg,
     regConfirm,
-    domainManage
+    domainManage,
+    deletedDomain
 }
