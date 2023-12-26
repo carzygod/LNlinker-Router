@@ -41,6 +41,11 @@ And claim your Lightning Network identity \`LNID\`.
             `Please input link of your twitter or site .`,
             `Please input the domain you want to delete`
         ],
+        'building':[
+            `⚙ Function`,
+            `is under building ...`,
+            `It is a open-source project , You can visit [github]()`
+        ]
     }
 ]
 
