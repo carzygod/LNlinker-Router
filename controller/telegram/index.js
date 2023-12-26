@@ -83,6 +83,10 @@ async function callBackRouter(data,action,opts )
             await domain.deletedDomain(bot,uid,req,data,opts);
             return 0 ;
             break;
+        case "deleted_domain_confirm":
+            await domain.deletedDomainConfirm(bot,uid,req,data,opts);
+            return 0 ;
+            break;
         case "empty":
             return null;
         case "close":

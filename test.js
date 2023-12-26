@@ -1,8 +1,9 @@
-const controller = require("./controller");
-const api = require("./utils/apis")
-const nt = require('nostr-tools')
+const db = require("./utils/db")
 async function test()
 {
+    const dm = await db.getDomain();
+
+    console.log(dm)
 }
 
 test()

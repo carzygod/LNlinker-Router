@@ -74,6 +74,14 @@ async function newDomain(data)
     await pool.close();
     return ret;
 }
+async function getDomain()
+{
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
+    var ret = await db.collection(sDomain).find().project({}).toArray();
+    await pool.close();
+    return ret;
+}
 async function getDomainByName(name)
 {
     const pool =  await MongoClient.connect(process.env.SQL_HOST)
@@ -96,13 +104,23 @@ async function getDomainByUid(uid)
     return ret;
 }
 
+async function delDomain(name,uid)
+{
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var seed = pool.db(mainDB);
+    await seed.collection(sDomain).deleteMany({uid:uid.toString(),name:name});
+    await pool.close();
+    return true;
 
+}
 module.exports = {
     newAccount,
     getAccountById,
     newDomain,
     getDomainByName,
     getDomainByUid,
-    unique
+    unique,
+    delDomain,
+    getDomain
 }
 

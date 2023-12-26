@@ -25,10 +25,11 @@ And claim your Lightning Network identity \`LNID\`.
         ],
         "domainList":[
             `My Domains`,
-            `⚠️ Please confirm this delete action`
+            `⚠️ Please confirm this delete action`,
             `This action will wipe`,
             `from LNID`,
-            `You will be no longer own the domain`
+            `You will be no longer own the domain`,
+            `Deleted success !`
 
         ],
         "placeHolder":[
@@ -36,7 +37,8 @@ And claim your Lightning Network identity \`LNID\`.
             `Name already exsit`,
             `Please input your lighting network address by your wallet . Eg : xxx@getalby.com`,
             `Please input your nostr address . Eg : npxx....`,
-            `Please input link of your twitter or site .`
+            `Please input link of your twitter or site .`,
+            `Please input the domain you want to delete`
         ],
     }
 ]

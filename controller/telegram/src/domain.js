@@ -131,10 +131,10 @@ async function deletedDomain(bot,uid,req,data,opts)
         }
         //return the confirm menu
         var text = lan.getText()
-        var finalText = `*${text['domain'][1]}*
-${text['domain'][1]} \`${name}.${config.domain.defaultTLD}\` ${text['domain'][2]}
-${text['domain'][3]}`
-        var btn = lan.domainDeleted(name,lan);
+        var finalText = `*${text['domainList'][1]}*
+${text['domainList'][2]} \`${name}.${config.domain.defaultTLD}\` ${text['domainList'][3]}
+${text['domainList'][4]}`
+        var btn = lan.domainDeleted(name);
         return await tg.tryBotSendMessage(bot,uid,finalText,{
             parse_mode:'MarkDown',
             disable_web_page_preview:"true",
@@ -145,6 +145,37 @@ ${text['domain'][3]}`
     }else
     {
         //require to input 
+
+        var text = lan.getText()
+        let contentMessage = await bot.sendMessage(uid, text['placeHolder'][5], {
+            parse_mode:'MarkDown',
+            "reply_markup": {
+                "force_reply": true
+            }
+        });
+        listenerReply = (async (replyHandler) => {
+                bot.removeReplyListener(listenerReply);
+                await bot.deleteMessage(contentMessage.chat.id,contentMessage.message_id);
+                await bot.deleteMessage(replyHandler.chat.id,replyHandler.message_id);
+                var name = (replyHandler.text).toLowerCase();
+                var domain = await db.getDomainByName(name);
+                if(domain.length>0 && domain[0]['uid'] == uid.toString())
+                {
+                    //new domain
+                    var finalText = `*${text['domainList'][1]}*
+${text['domainList'][2]} \`${name}${config.domain.defaultTLD}\` ${text['domainList'][3]}
+${text['domainList'][4]}`
+                    return await tg.tryBotSendMessage(bot,uid,finalText,{
+                        parse_mode:'MarkDown',
+                        disable_web_page_preview:"true",
+                        reply_markup: JSON.stringify({
+                        inline_keyboard:  lan.domainDeleted(name)
+                        })
+                    });
+                }
+            });
+          bot.onReplyToMessage(contentMessage.chat.id, contentMessage.message_id, listenerReply);
+        return true ;
     }
 }
 
@@ -152,10 +183,23 @@ async function deletedDomainConfirm(bot,uid,req,data,opts)
 {
     if(req.params.length > 0)
     {
-
-    }else
-    {
-
+        var text = lan.getText()
+        var name = (req.params[0]).toLowerCase();
+        var domain = await db.getDomainByName(name);
+        if(domain.length>0 && domain[0]['uid'] == uid.toString())
+        {
+            await db.delDomain(name,uid);
+            var finalText = `⚠️ \`${name}${config.domain.defaultTLD}\` *${text['domain'][5]}*`
+            return await tg.tryBotSendMessage(bot,uid,finalText,{
+                parse_mode:'MarkDown',
+                disable_web_page_preview:"true",
+                reply_markup: JSON.stringify({
+                inline_keyboard:[lan.backAndClose()]
+                })
+            });
+        }else{
+            return false; //It do not own the domain
+        }
     }
 }
 
@@ -163,5 +207,6 @@ module.exports = {
     reg,
     regConfirm,
     domainManage,
-    deletedDomain
+    deletedDomain,
+    deletedDomainConfirm
 }
