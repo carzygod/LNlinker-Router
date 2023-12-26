@@ -104,6 +104,43 @@ async function getDomainByUid(uid)
     return ret;
 }
 
+async function updateDomainForward(_id,type,data)
+{
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var seed = pool.db(mainDB);
+    var set = {
+        forward:data
+    }
+    var ret = await seed.collection(sDomain).updateMany(
+        {
+            _id:_id
+        },
+        {
+            "$set": set
+        }
+    );
+
+    await pool.close();
+    return ret;
+
+}
+
+async function verfiDomainOwning(uid,name)
+{
+    const pool =  await MongoClient.connect(process.env.SQL_HOST)
+    var db =pool.db(mainDB);
+    var ret = await db.collection(sDomain).find({
+        uid:uid,
+        name:name
+    }).project({}).toArray();
+    await pool.close();
+    if(ret.length>0)
+    {
+        return ret[0];
+    }
+    return false;
+}
+
 async function delDomain(name,uid)
 {
     const pool =  await MongoClient.connect(process.env.SQL_HOST)
@@ -121,6 +158,8 @@ module.exports = {
     getDomainByUid,
     unique,
     delDomain,
-    getDomain
+    getDomain,
+    verfiDomainOwning,
+    updateDomainForward
 }
 

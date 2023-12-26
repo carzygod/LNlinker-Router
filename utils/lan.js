@@ -21,7 +21,8 @@ And claim your Lightning Network identity \`LNID\`.
             `Ln Address`,
             `Nostr Address`,
             `Browser Visit`,
-            `Registed Time`
+            `Registed Time`,
+            `🍺Update success !`
         ],
         "domainList":[
             `My Domains`,

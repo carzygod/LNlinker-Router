@@ -39,7 +39,7 @@ bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
 
 async function router(data)
 {
-    const uid = data.chat.id;
+    const uid = (data.chat.id).toString();
     const d= data.text;
     const t= data.date;
     const req = tool.pathRouter(data.text);
@@ -61,7 +61,7 @@ async function router(data)
 
 async function callBackRouter(data,action,opts )
 {
-    const uid = data.chat.id;
+    const uid = (data.chat.id).toString();
     const req = tool.pathRouter(action);
     switch (req.command)
     {
@@ -85,7 +85,9 @@ async function callBackRouter(data,action,opts )
             break;
         case "deleted_domain_confirm":
             await domain.deletedDomainConfirm(bot,uid,req,data,opts);
-            return 0 ;
+            break;
+        case "domain_edit_ln":
+            await domain.editDomainLn(bot,uid,req,data,opts);
             break;
         case "empty":
             return null;

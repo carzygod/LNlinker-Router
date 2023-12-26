@@ -15,11 +15,12 @@ async function getRecord(uanme)
     }
 }
 
-async function newRecord(uanme,ln)
+async function newRecord(uid,uanme,ln)
 {
-    if(!(await getRecord(uanme)))
+    var domain = await db.verfiDomainOwning(uid,uanme);
+    if(domain)
     {
-
+        var forward = domain.forward;
         var data = 
         {
             uanme:uanme,
@@ -30,10 +31,11 @@ async function newRecord(uanme,ln)
                 )
             )).toString("base64")
         }
-        console.log(data)
+        forward['ln'] = data
+        // console.log(data)
         if(data.raw)
         {
-            await sql.newRecord(data);
+            await db.updateDomainForward(domain._id,ln,forward);
             return true;
         }
     }
